@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--
+  Name: Kanika Sun
+  Date: 11.28.2024
+  CSC 372-01
+
+  This is the product-edit.html page for my Web Development project. It displays the
+  the edit product form.
+-->
+
+<head>
+    <title>Product Edit</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../styles/admin.css">
+    <link rel="stylesheet" href="../styles/style.css">
+    <script type="module" src="../js/admin.js" defer></script>
+
+</head>
+
+<body>
+
+    <header>
+        <a href="/index.html" class="logo">Flourish</a>
+        <nav class="nav">
+            <a href="admin-upload.html">upload</a>
+            <a href="admin-products.html">products</a>
+        </nav>
+    </header>
+
+    <!-- Product Editing -->
+    <section class="listing">
+        <h1>Edit Product</h1>
+        <form id="edit-product-form">
+            <input type="text" id="image" name="image" placeholder="Image Path" class="box" required>
+            <input type="id" id="product_id" name="product_id" placeholder="Product ID" class="box" readonly>
+            <input type="text" id="product_name" name="product_name" placeholder="Product Name" class="box" required>
+            <input type="text" id="category" name="category" placeholder="Category Name" class="box" required>
+            <input type="number" id="price" name="price" placeholder="Price" class="box" required>
+            <textarea id="description" name="description" placeholder="Description" class="box" required></textarea>
+            <button type="submit">Update</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="box">
+            <a href="admin-upload.html">Upload</a>
+            <a href="admin-products.html">Products</a>
+        </div>
+        <p>Copyright &copy; 2024 | <span>Flourish</span> | All Rights Reserved</p>
+    </footer>
+
+</body>
+
+</html>

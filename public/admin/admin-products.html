@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!--
+  Name: Kanika Sun
+  Date: 10.14.2024
+  CSC 372-01
+
+  This is the admin-products.html page for my Web Development project. It lays out
+  the ability to add, search and list the products.
+-->
+
+<head>
+    <title>Manage Products</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../styles/admin.css">
+    <link rel="stylesheet" href="../styles/style.css">
+    <script src="../js/admin.js" defer></script>
+
+</head>
+
+<html>
+
+<body>
+
+    <!--Header-->
+    <header>
+        <a href="/index.html" class="logo">Flourish</a>
+
+        <nav class="nav">
+            <a href="admin-upload.html">upload</a>
+            <a href="admin-products.html">products</a>
+        </nav>
+
+    </header>
+
+    <!-- Product Creation -->
+    <section class="listing">
+        <h1> Add Product </h1>
+        <form id="add-product-form">
+            <input type="file" accept="image/png, image/jpeg, image/jpg" placeholder="Image" id="image" name="image"
+                class="box" required>
+            <input type="text" placeholder="Product Name" id="product_name" name="product_name" class="box" required>
+            <select name="category_id" required>
+                <option value="1">Gift</option>
+                <option value="2">Valentines</option>
+                <input type="number" placeholder="Price" id="price" name="price" class="box" required>
+                <textarea placeholder="Description" id="description" name="description" class="box" required></textarea>
+                <button type="submit">Add Product</button>
+        </form>
+    </section>
+
+    <!-- Search -->
+    <section class="search">
+        <h2>Search Products</h2>
+        <form>
+            <input type="text" id="search" name="search" placeholder="Search..." class="box">
+            <button type="submit">Search</button>
+        </form>
+    </section>
+
+    <!-- Display Products -->
+    <section class="display-products">
+        <table class="product-table">
+
+            <thead>
+                <tr>
+                    <td>Image</td>
+                    <td>Product ID</td>
+                    <td>Product Name</td>
+                    <td>Category</td>
+                    <td>Price</td>
+                    <td>Description</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+
+            <!--Products -->
+            <tbody>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+    <!-- Footer -->
+    <footer>
+
+        <div class="box">
+            <a href="admin-upload.html">upload</a>
+            <a href="admin-products.html">products</a>
+        </div>
+
+        <p>
+            Copyright &copy 2024 | <span>Flourish</span> | All Rights Reserved
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

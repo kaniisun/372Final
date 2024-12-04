@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--
+  Name: Kanika Sun
+  Date: 09.28.2024
+  CSC 372-01
+
+  This is the cart.html page for my Web Development project. It displays the
+  items in a customers cart and the total.
+-->
+
+<head>
+    <title>Your Cart</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="styles/style.css">
+    <script type="module" src="js/cart.js" defer></script>
+</head>
+
+<html>
+
+<body>
+
+    <!--Header-->
+    <header>
+        <a href="/index.html" class="logo">Flourish</a>
+
+        <nav class="nav">
+            <a href="/index.html">home</a>
+            <a href="/listing.html">products</a>
+            <a href="/cart.html"><i class='bx bxs-cart'></i></a>
+        </nav>
+
+        <div class="search">
+            <form action="#">
+                <input type="text" placeholder="search..." name="search">
+                <button>
+                    <i class='bx bx-search'></i>
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <!--Cart Content-->
+    <main class="cart-container">
+        <h1>Your Cart</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>$$$</th>
+                    <th>Amount</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody id="cart-items">
+
+            </tbody>
+
+        </table>
+
+        <!--Cart Summary-->
+        <section class="summary">
+
+        </section>
+
+        <button class="checkout">Checkout</button>
+    </main>
+
+    <!--Footer-->
+    <footer>
+
+        <div class="box">
+            <a href="/index.html">home</a>
+            <a href="/listing.html">products</a>
+        </div>
+
+        <p>
+            Copyright &copy 2024 | <span>Flourish</span> | All Rights Reserved
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

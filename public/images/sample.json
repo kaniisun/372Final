@@ -1,0 +1,16 @@
+[
+    {
+        "product_name": "Bouquet 1",
+        "category": "Mother's Day",
+        "price": 17.99,
+        "description": "Beautiful arrangement of lilies",
+        "image": "/images/flower1.webp"
+    },
+    {
+        "product_name": "Bouquet 2",
+        "category": "Birthday",
+        "price": 19.99,
+        "description": "Colorful bouquet for a special occasion",
+        "image": "/images/flower2.webp"
+    }
+]

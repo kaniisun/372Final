@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!--
+  Name: Kanika Sun
+  Date: 10.14.2024
+  CSC 372-01
+
+  This is the products.html page for my Web Development project. Allows to upload
+  json, csv, and txt formatted data. 
+-->
+
+<head>
+    <title>Bulk Upload</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../styles/admin.css">
+    <link rel="stylesheet" href="../styles/style.css">
+    <script type="module" src="../js/admin.js" defer></script>
+</head>
+
+<html>
+
+<body>
+
+    <!--Header-->
+    <header>
+        <a href="/index.html" class="logo">Flourish</a>
+
+        <nav class="nav">
+            <a href="admin-upload.html">upload</a>
+            <a href="admin-products.html">products</a>
+        </nav>
+
+    </header>
+
+    <!--File upload-->
+    <section class="upload">
+        <h1> Bulk Product Upload </h1>
+        <form id="bulk-upload-form">
+            <input type="file" id="file-upload" name="bulkFile" accept=".json" required>
+            <button type="submit">Upload</button>
+        </form>
+    </section>
+
+    <!--File Upload Instructions-->
+    <article class="content">
+        <h3>File Upload Instructions</h3>
+        <p>
+            Only JSON (.json), CSV (.csv) and TXT (.txt) formats will be accepted.
+        <p>
+            Fields must include:
+        <ul>
+            <li>Product ID</li>
+            <li>Product Name</li>
+            <li>Category</li>
+            <li>Price</li>
+            <li>Description</li>
+            <li>Image Path</li>
+        </ul>
+        </p>
+
+        <h4>Example JSON Format:</h4>
+        <pre>
+
+        {
+            "product_id": 1,
+            "product_name": "Bouquet 1",
+            "category": "Mother's Day",
+            "price": 17.99,
+            "description": "Beautiful arrangement of lilies",
+            "image": "/images/flower1.webp"
+        }
+
+        </pre>
+
+        <h4>Example CSV Format:</h4>
+        <pre>
+
+product_id,product_name,category,price,description,image
+1,Bouquet 1,Mother's Day,17.99,Beautiful arrangement of lilies,/images/flower1.webp
+        </pre>
+
+    </article>
+
+
+    <!--Footer-->
+    <footer>
+
+        <div class="box">
+            <a href="admin-upload.html">upload</a>
+            <a href="admin-products.html">products</a>
+        </div>
+
+        <p>
+            Copyright &copy 2024 | <span>Flourish</span> | All Rights Reserved
+        </p>
+
+    </footer>
+
+</body>
+
+</html>
