@@ -12,5 +12,4 @@ router.delete("/:id", adminProductController.deleteProduct);
 router.post("/upload", adminProductController.uploadFile);
 router.post("/bulk-upload", adminProductController.bulkUpload);
 
-
 module.exports = router;

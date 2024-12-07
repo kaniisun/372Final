@@ -11,5 +11,6 @@ router.post('/', productsController.createProduct);
 router.put('/:id', productsController.updateProduct);
 router.delete('/:id', productsController.deleteProduct);
 router.get("/:id/similar", productsController.getSimilarProducts);
+router.get('/search', productsController.searchProducts);
 
 module.exports = router;

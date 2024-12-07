@@ -80,6 +80,18 @@
     text-align: center;
 }
 
+.listing button:hover {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    background-color: gray;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    text-align: center;
+}
+
 .search {
     text-align: center;
 }
@@ -103,5 +115,15 @@
     border-radius: 4px;
     font-size: 14px;
     margin: 1px;
+    transition-duration: 0.4s;
 }
 
+.product-table a, button:hover {
+    padding: 8px 12px;
+    background-color: gray;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    margin: 1px;
+}

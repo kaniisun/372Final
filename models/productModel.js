@@ -126,6 +126,47 @@ const getSimilarProducts = (id, callback) => {
   });
 };
 
+// function and query for products on homepage
+const getTrendingProducts = (callback) => {
+  const sql = `
+      SELECT 
+          products.id AS product_id,
+          products.name AS product_name,
+          categories.name AS category,
+          products.description,
+          products.price,
+          products.url AS image
+      FROM products
+      JOIN categories ON products.categories_id = categories.id
+      WHERE products.is_trending = 1
+      LIMIT 5
+  `;
+  db.all(sql, [], (err, rows) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, rows);
+    }
+  });
+};
+
+// attempt for search
+const searchProducts = (searchQuery, callback) => {
+  let query = 'SELECT * FROM products WHERE name LIKE ?';
+  let params = [`%${searchQuery.q}%`];
+
+  if (searchQuery.category) {
+    query += ' AND category = ?';
+    params.push(searchQuery.category);
+  }
+
+  db.all(query, params, (err, results) => {
+    if (err) return callback(err);
+    callback(null, results);
+  });
+};
+
+
 module.exports = {
   getProductById,
   createProduct,
@@ -133,4 +174,6 @@ module.exports = {
   deleteProduct,
   getSimilarProducts,
   getAllProducts,
+  getTrendingProducts,
+  searchProducts,
 };

@@ -1,14 +1,26 @@
 const db = require('./db');
 
-// function and query to get cart items
+// function and query for create a new cart
+const createCart = () => {
+  return new Promise((resolve, reject) => {
+    const query = `INSERT INTO carts DEFAULT VALUES`;
+    db.run(query, function (err) {
+      if (err) return reject(err);
+      resolve({ id: this.lastID });
+    });
+  });
+};
+
+// function and query for get all items in cart
 const getCartItems = (cartId) => {
   return new Promise((resolve, reject) => {
     const query = `
-          SELECT cp.id, p.name, cp.quantity, p.price, (cp.quantity * p.price) AS total_price
-          FROM cartProducts cp
-          JOIN products p ON cp.products_id = p.id
-          WHERE cp.carts_id = ?;
-      `;
+      SELECT cp.id AS cartItemId, p.name, cp.quantity, p.price, 
+             (cp.quantity * p.price) AS totalPrice
+      FROM cartProducts cp
+      JOIN products p ON cp.product_id = p.id
+      WHERE cp.carts_id = ?;
+    `;
     db.all(query, [cartId], (err, rows) => {
       if (err) return reject(err);
       resolve(rows);
@@ -16,105 +28,80 @@ const getCartItems = (cartId) => {
   });
 };
 
-// function and query to add to cart and update quanitity
+// function and query for add item to the cart
 const addItemToCart = (cartId, productId, quantity) => {
   return new Promise((resolve, reject) => {
-    if (!productId || quantity <= 0) {
-      return reject(new Error("Invalid quantity"));
-    }
-
-    db.get(`SELECT id FROM products WHERE id = ?`, [productId], (err, product) => {
-      if (err) return reject(err);
-      if (!product) return reject(new Error("Product not found"));
-
-      db.get(`SELECT id FROM cartProducts WHERE carts_id = ? AND products_id = ?`, [cartId, productId], (err, existingProduct) => {
-        if (err) return reject(err);
-
-        if (existingProduct) {
-          db.run(
-            `UPDATE cartProducts SET quantity = quantity + ? WHERE carts_id = ? AND products_id = ?`,
-            [quantity, cartId, productId],
-            (err) => {
-              if (err) return reject(err);
-              resolve({ message: "Quantity updated" });
-            }
-          );
-        } else {
-          db.run(
-            `INSERT INTO cartProducts (carts_id, products_id, quantity) VALUES (?, ?, ?)`,
-            [cartId, productId, quantity],
-            (err) => {
-              if (err) return reject(err);
-              resolve({ message: "Product added to cart" });
-            }
-          );
-        }
-      });
+    const query = `
+      INSERT INTO cartProducts (carts_id, product_id, quantity)
+      VALUES (?, ?, ?)
+      ON CONFLICT (carts_id, product_id)
+      DO UPDATE SET quantity = quantity + excluded.quantity;
+    `;
+    db.run(query, [cartId, productId, quantity], (err) => {
+      if (err) {
+          console.error("Error executing query:", err);
+          return reject(err);
+      }
+      console.log(`Product ${productId} added to cart ${cartId}`);
+      resolve({ message: "Product added or quantity updated" });
     });
   });
 };
 
-// function and query to update cart
+// function and query for update cart item quantity
 const updateCartItem = (itemId, quantity) => {
   return new Promise((resolve, reject) => {
-    if (!quantity || quantity <= 0) {
-      return reject(new Error("Invalid quantity"));
-    }
-
-    db.run(`UPDATE cartProducts SET quantity = ? WHERE id = ?`, [quantity, itemId], (err) => {
+    const query = `
+      UPDATE cartProducts SET quantity = ? WHERE id = ?;
+    `;
+    db.run(query, [quantity, itemId], (err) => {
       if (err) return reject(err);
-      resolve({ message: "Quantity updated" });
+      resolve({ message: "Cart item updated" });
     });
   });
 };
 
-// function and query to remove item
+// function and query for remove item from the cart
 const removeItemFromCart = (itemId) => {
   return new Promise((resolve, reject) => {
-    db.run(`DELETE FROM cartProducts WHERE id = ?`, [itemId], (err) => {
+    const query = `
+      DELETE FROM cartProducts WHERE id = ?;
+    `;
+    db.run(query, [itemId], (err) => {
       if (err) return reject(err);
-      resolve({ message: "Item removed from cart" });
+      resolve({ message: "Item removed" });
     });
   });
 };
 
-const getCartByUserId = (userId) => {
+// function and query for get cart by id
+const getCartById = (cartId) => {
   return new Promise((resolve, reject) => {
-    const query = `SELECT * FROM carts WHERE users_id = ?`;
-    db.get(query, [userId], (err, row) => {
+    const query = `SELECT * FROM carts WHERE id = ?;`;
+    db.get(query, [cartId], (err, row) => {
       if (err) return reject(err);
-      if (!row) return resolve(null);
       resolve(row);
     });
   });
 };
 
-const createCart = async (userId) => {
-  let cart = await getCartByUserId(userId);
-  if (!cart) {
-    cart = await createCart(userId);
-  }
-  return cart;
-};
-
-const addToCart = async (productId, quantity, userId) => {
-  try {
-    const cart = await getOrCreateCart(userId);
-    if (!cart) {
-      throw new Error("Failed to create");
-    }
-
-    await addItemToCart(cart.cartId, productId, quantity);
-  } catch (error) {
-  }
+// function and query for clear cart
+const clearCart = (cartId) => {
+  return new Promise((resolve, reject) => {
+    const query = `DELETE FROM cartProducts WHERE carts_id = ?;`;
+    db.run(query, [cartId], (err) => {
+      if (err) return reject(err);
+      resolve({ message: "Cart cleared" });
+    });
+  });
 };
 
 module.exports = {
+  createCart,
   getCartItems,
-  addToCart,
   addItemToCart,
-  getCartByUserId,
   updateCartItem,
   removeItemFromCart,
-  createCart,
+  getCartById,
+  clearCart,
 };

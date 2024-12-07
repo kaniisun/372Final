@@ -74,7 +74,7 @@ const deleteProduct = (id, callback) => {
   });
 };
 
-// search 
+// function and query for attempt search 
 const searchProducts = (query, callback) => {
   const { name, category } = query;
   let sql = "SELECT * FROM products WHERE 1 = 1";
@@ -97,7 +97,7 @@ const searchProducts = (query, callback) => {
   });
 };
 
-// update 
+// function and query for update 
 const updateProduct = (id, updatedData, callback) => {
   const fields = Object.keys(updatedData).map((key) => `${key} = ?`).join(", ");
   const values = Object.values(updatedData);

@@ -56,20 +56,20 @@ async function deleteProduct(productId) {
 // add new product
 document.getElementById('add-product-form').addEventListener('submit', async (event) => {
     event.preventDefault();
-  
+
     const formData = new FormData(event.target);
     const imageFile = formData.get('image');
-    const imageUrl = await uploadImage(imageFile);  
-  
+    const imageUrl = await uploadImage(imageFile);
+
     const productData = {
         name: formData.get("product_name"),
         category_id: parseInt(formData.get('category_id')),
         description: formData.get("description"),
         price: parseFloat(formData.get("price")),
-        url: imageUrl,  
+        url: imageUrl,
     };
 
-    const response = await fetch(API_URL, { 
+    const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(productData),
@@ -77,7 +77,7 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
 
     if (response.ok) {
         const newProduct = await response.json();
-        fetchProducts(); 
+        fetchProducts();
         event.target.reset();
     } else {
         console.error("Failed to add product");
@@ -101,27 +101,53 @@ async function fetchProductData(productId) {
     }
 }
 
-// edit product
-document.querySelector("#edit-product-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const productData = Object.fromEntries(formData.entries());
-    productData.price = parseFloat(productData.price); 
+window.onload = async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get("id");
 
-    try {
-        const response = await fetch(`${API_URL}/${productData.product_id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(productData),
-        });
+    if (productId) {
+        const response = await fetch(`/admin/products/${productId}`);
+        const product = await response.json();
 
-        if (response.ok) {
-            alert("Product updated");
-        } else {
-            alert("Failed to update");
+        if (product) {
+            document.getElementById('product_name').value = product.product_name;
+            document.getElementById('category').value = product.category;
+            document.getElementById('price').value = product.price;
+            document.getElementById('description').value = product.description;
+            document.getElementById('image').value = product.image;
+            document.getElementById('product_id').value = product.product_id;
         }
-    } catch (error) {
-        console.error("Error updating:", error);
+    }
+};
+
+// edit product
+document.getElementById('edit-product-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const productId = document.getElementById('product_id').value;
+    const updatedProductData = {
+        product_name: document.getElementById('product_name').value,
+        category: document.getElementById('category').value,
+        price: document.getElementById('price').value,
+        description: document.getElementById('description').value,
+        image: document.getElementById('image').value
+    };
+
+    const response = await fetch(`/admin/products/${productId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedProductData)
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+        alert('Product updated ');
+        window.location.href = '/admin/products';
+    } else {
+        alert('Error updating product: ' + result.message);
     }
 });
 
@@ -129,21 +155,21 @@ function editProduct(productId) {
     window.location.href = `product-edit.html?id=${productId}`;
 }
 
-// bulk upload
+// attempt at bulk upload
 document.getElementById('bulk-upload-form').addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const fileInput = document.getElementById('file-upload');
     const file = fileInput.files[0];
-    
+
     if (!file) {
         alert("Select a JSON file");
         return;
     }
 
     try {
-        const fileContent = await file.text();  
-        const productsData = JSON.parse(fileContent);  
+        const fileContent = await file.text();
+        const productsData = JSON.parse(fileContent);
 
         if (Array.isArray(productsData)) {
             const response = await fetch("http://localhost:3000/admin/products/bulk-upload", {

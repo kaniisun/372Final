@@ -69,6 +69,7 @@ const deleteProduct = (req, res) => {
   });
 };
 
+// attempt for bulk upload
 const bulkUpload = (req, res) => {
   const products = req.body;
 
@@ -119,6 +120,7 @@ const bulkUpload = (req, res) => {
   }, 2000);
 };
 
+// attempt for search
 const searchProducts = (req, res) => {
   const { query } = req;
   const results = adminProductModel.searchProducts(query);

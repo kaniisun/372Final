@@ -1,13 +1,12 @@
-CREATE TABLE "cartProducts" (
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "carts_id" INTEGER NOT NULL,
-    "products_id" INTEGER NOT NULL,
-    "quantity" INTEGER, 
-    "updated_by" INTEGER,
-    FOREIGN KEY (carts_id) REFERENCES carts(id),
-    FOREIGN KEY (products_id) REFERENCES products(id)
-	FOREIGN KEY (updated_by) REFERENCES users(id)
-)
+CREATE TABLE cartProducts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    carts_id INTEGER NOT NULL,
+    product_id INTEGER NOT NULL,
+    quantity INTEGER NOT NULL,
+    UNIQUE (carts_id, product_id),
+    FOREIGN KEY (carts_id) REFERENCES carts (id),
+    FOREIGN KEY (product_id) REFERENCES products (id)
+) 
 
 CREATE TABLE "carts" (
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,

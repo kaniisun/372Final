@@ -12,8 +12,6 @@
     <title>Products</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="styles/style.css">
-    <script type="module" src="js/products.js" defer></script>
-    <script type="module" src="js/cart.js" defer></script>
 </head>
 
 <html>
@@ -31,10 +29,10 @@
         </nav>
 
         <div class="search">
-            <form action="#">
-                <input type="text" placeholder="search..." name="search">
-                <button>
-                    <i class='bx bx-search'></i>
+            <form action="#" method="get">
+                <input type="text" name="search" placeholder="Search for products..." />
+                <button type="submit">
+                    <i class="bx bx-search"></i>
                 </button>
             </form>
         </div>
@@ -63,6 +61,7 @@
         </p>
 
     </footer>
+    <script type="module" src="js/products.js" defer></script>
 
 </body>
 
